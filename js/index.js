@@ -1,40 +1,35 @@
 document.addEventListener("DOMContentLoaded", loaded())
+
 function loaded(){
     fetchBooks()
 }
-function fetchBooks(){
-    const URL = 'http://localhost:3000/books/'
-    
 
-    fetch(URL)
+function fetchBooks(){
+    const ul = document.getElementById('list')
+    const showPanel = document.getElementById('show-panel')
+    const panel = showPanel.appendChild(document.createElement('ul'))
+    panel.setAttribute('id', 'panel')
+    fetch('http://localhost:3000/books/')
     .then(resp=>resp.json())
     .then(data=>{
-        const books = Object.values(data)
-        console.log(books)
-        for(i=0;i<books.length;i++){
-            let eachBook = books[i]
-            createBook(eachBook)
+        const panel = document.getElementById('panel')
+        data.forEach(item=>{
+            let titleLi = ul.appendChild(document.createElement('li'))
+            titleLi.innerHTML = item.title
+            titleLi.style.cursor = 'pointer'
+            titleLi.addEventListener('click', ()=>{
+                displayInfo(item, panel)
+                console.log(item)
+            })})})
         }
-    })
-}
-function createBook(element){
-    const bookList = document.getElementById('list')
-    let newLi = bookList.appendChild(document.createElement('li'))
-    let titleH4 = newLi.appendChild(document.createElement('h4'))
-    let bookImg = newLi.appendChild(document.createElement('img'))
-    let subTitleH5 = newLi.appendChild(document.createElement('h5'))
-    let descriptionP = newLi.appendChild(document.createElement('p'))
-    let likedByTitle = newLi.appendChild(document.createElement('h5'))
-    likedByTitle.innerHTML = 'Liked by: '
-    let likedByUl = newLi.appendChild(document.createElement('ul'))
-    let users = element.users
-    for (let i=0;i<users.length;i++){
-        let eachUser  = users[i]
-        let likedByLi = likedByUl.appendChild(document.createElement('li'))
-        likedByLi.innerHTML = eachUser.username
-    }
-    titleH4.innerHTML = element.title
-    bookImg.setAttribute('src', element.img_url)
-    subTitleH5.innerHTML = element.subtitle
-    descriptionP.innerHTML = 'Description: '+element.description
+
+
+function displayInfo(info, location){
+    location.innerHTML = `
+    <img src='${info.img_url}'>
+    <h3>${info.title}</h3>
+    <h4>${info.subtitle}</h4>
+    <p>${info.description}</p>
+    <button id='likeButton'>Like</button>
+    `
 }
