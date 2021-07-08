@@ -7,16 +7,16 @@
       "description": "Back in print for the first time in nearly thirty years, here is Yoko Ono's whimsical, delightful, subversive, startling book of instructions for art and for life. 'Burn this book after you've read it.' -- Yoko 'A dream you dream alone may be a dream, but a dream two people dream together is a reality. This is the greatest book I've ever burned.' -- John",
       "author": "Yoko Ono",
       "img_url": "https://books.google.com/books/content?id=3S8Rwr-iBdoC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-      "users": [
-        {
-          "id": 2,
-          "username": "auer"
-        },
-        {
-          "id": 8,
-          "username": "maverick"
+      "users": {
+        "id": 86,
+        "username": "happymelonbox"
+      },
+      "data": {
+        "users": {
+          "id": 86,
+          "username": "happymelonbox"
         }
-      ]
+      }
     },
     {
       "id": 2,
@@ -259,7 +259,50 @@
     {
       "id": 10,
       "username": "macejkovic"
+    },
+    {
+      "data": {
+        "username": "happymelonbox"
+      },
+      "bookId": "id=1",
+      "id": 11
+    },
+    {
+      "data": {
+        "username": "happymelonbox"
+      },
+      "bookId": "id:1",
+      "id": 12
+    },
+    {
+      "data": {
+        "username": "happymelonbox"
+      },
+      "bookId": "id:undefined",
+      "id": 13
+    },
+    {
+      "data": {
+        "username": "happymelonbox"
+      },
+      "bookId": "id:1",
+      "id": 14
+    },
+    {
+      "data": {
+        "id": 86,
+        "username": "happymelonbox"
+      },
+      "bookId": "1",
+      "id": 15
+    },
+    {
+      "data": {
+        "id": 86,
+        "username": "happymelonbox"
+      },
+      "bookId": "1",
+      "id": 16
     }
-
   ]
 }

@@ -1,3 +1,4 @@
+const booksURL = 'http://localhost:3000/books'
 document.addEventListener("DOMContentLoaded", loaded())
 
 function loaded(){
@@ -9,7 +10,7 @@ function fetchBooks(){
     const showPanel = document.getElementById('show-panel')
     const panel = showPanel.appendChild(document.createElement('ul'))
     panel.setAttribute('id', 'panel')
-    fetch('http://localhost:3000/books/')
+    fetch(booksURL)
     .then(resp=>resp.json())
     .then(data=>{
         const panel = document.getElementById('panel')
@@ -19,9 +20,10 @@ function fetchBooks(){
             titleLi.style.cursor = 'pointer'
             titleLi.addEventListener('click', ()=>{
                 displayInfo(item, panel)
-                console.log(item)
-            })})})
-        }
+            })
+        })
+    })
+}
 
 
 function displayInfo(info, location){
@@ -32,4 +34,42 @@ function displayInfo(info, location){
     <p>${info.description}</p>
     <button id='likeButton'>Like</button>
     `
+    const likeButton = document.getElementById('likeButton')
+    likeButtonDisplay(info, likeButton)
+    likeButton.addEventListener('click', ()=>{likeButtonClick(info, likeButton)
+    })
 }
+function likeButtonDisplay(info, likeButton){
+    const found = info.users.find(u => {return u.id === 1})
+    if (found){
+        likeButton.innerHTML = 'Unlike'
+    } else {
+        likeButton.innerHTML = 'Like'
+    }
+}
+function likeButtonClick(info, likeButton){
+    let users
+    if(likeButton.innerHTML === 'Like'){
+        likeButton.innerHTML = 'Unlike'
+        users = [...info.users, {id: 1, username: 'pouros'}]
+    } else {
+        likeButton.innerHTML = 'Like'
+        users = info.users.filter(u=>{u.id != 1})
+    }
+    patchUsers(info, users)
+}
+
+function patchUsers(info, allUsers){
+    console.log(allUsers)
+    let config = {
+        method: "PATCH",
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({users: allUsers})
+    }
+    fetch(booksURL+`/${info.id}`, config)
+    .then(resp=>resp.json())
+    .then(data=>{console.log(data)})
+}
+
