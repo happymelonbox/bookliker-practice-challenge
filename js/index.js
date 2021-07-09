@@ -32,15 +32,29 @@ function displayInfo(info, location){
     <h3>${info.title}</h3>
     <h4>${info.subtitle}</h4>
     <p>${info.description}</p>
+    <ul id="likedBy"></ul>
     <button id='likeButton'>Like</button>
     `
+    likedBy(info.users)
     const likeButton = document.getElementById('likeButton')
     likeButtonDisplay(info, likeButton)
     likeButton.addEventListener('click', ()=>{likeButtonClick(info, likeButton)
     })
 }
+function likedBy(allUsers){
+    const likedByUl = document.getElementById('likedBy')
+    for(i=0; i<allUsers.length;i++){
+       let likedByLi = likedByUl.appendChild(document.createElement('li'))
+       let eachUser = Object.values(allUsers[i])
+       likedByLi.innerHTML = eachUser[1]
+    }
+
+}
 function likeButtonDisplay(info, likeButton){
-    const found = info.users.find(u => {return u.id === 1})
+    let infoUsers = info.users
+    console.log(infoUsers)
+    let object = Object.values(infoUsers)
+    let found = object.find(u=>{return u.id===1})
     if (found){
         likeButton.innerHTML = 'Unlike'
     } else {
@@ -48,27 +62,30 @@ function likeButtonDisplay(info, likeButton){
     }
 }
 function likeButtonClick(info, likeButton){
+    let userObject = Object.values(info.users)
     let users
     if(likeButton.innerHTML === 'Like'){
         likeButton.innerHTML = 'Unlike'
-        users = [...info.users, {id: 1, username: 'pouros'}]
+        users = [...userObject, {id: 1, username: 'pouros'}]
     } else {
         likeButton.innerHTML = 'Like'
-        users = info.users.filter(u=>{u.id != 1})
+        users = userObject.filter(u=>{if(u.id !== 1){return u.id}})
     }
     patchUsers(info, users)
 }
 
-function patchUsers(info, allUsers){
-    console.log(allUsers)
+function patchUsers(info, usersy){
+    let id = info.id
     let config = {
         method: "PATCH",
         headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({users: allUsers})
+        body: JSON.stringify({users: usersy})
     }
-    fetch(booksURL+`/${info.id}`, config)
+    console.log(`${booksURL}/${id}`)
+    fetch(`${booksURL}/${id}`, config)
     .then(resp=>resp.json())
     .then(data=>{console.log(data)})
 }
