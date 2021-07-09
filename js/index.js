@@ -45,11 +45,12 @@ function likedBy(allUsers){
     const likedByUl = document.getElementById('likedBy')
     for(i=0; i<allUsers.length;i++){
        let likedByLi = likedByUl.appendChild(document.createElement('li'))
+       likedByLi.setAttribute('class', 'likedByUsers')
        let eachUser = Object.values(allUsers[i])
        likedByLi.innerHTML = eachUser[1]
     }
-
 }
+
 function likeButtonDisplay(info, likeButton){
     let infoUsers = info.users
     console.log(infoUsers)
@@ -87,6 +88,20 @@ function patchUsers(info, usersy){
     console.log(`${booksURL}/${id}`)
     fetch(`${booksURL}/${id}`, config)
     .then(resp=>resp.json())
-    .then(data=>{console.log(data)})
+    .then(data=>{console.log(data)
+        const allUsers = data.users
+        const likedByUl = document.getElementById('likedBy')
+        let eachLi = document.querySelectorAll('.likedByUsers')
+        for(i=0;i<eachLi.length;i++){
+            let each = eachLi[i]
+            each.remove()
+        }
+        for(i=0; i<allUsers.length;i++){
+            let likedByLi = likedByUl.appendChild(document.createElement('li'))
+            likedByLi.setAttribute('class', 'likedByUsers')
+            let eachUser = Object.values(allUsers[i])
+            likedByLi.innerHTML = eachUser[1]
+        }
+    })
 }
 
